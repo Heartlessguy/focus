@@ -3,12 +3,27 @@
 version: "3"
 
 services:
-  loan-app:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www/:/var/www/certbot/:ro
+    restart: always
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
+  app:
     build:
       context: .
       dockerfile: app.Dockerfile
-    ports:
-      - "22300:8082"
+#    ports:
+#      - "22300:8082"
     depends_on:
       - postgres
 
@@ -23,7 +38,7 @@ services:
       - POSTGRES_DB=loan
     volumes:
       - pgdata:/var/lib/postgresql/data
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
 volumes:
   pgdata:
