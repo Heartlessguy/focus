@@ -1,0 +1,29 @@
+
+# https://docs.docker.com/compose/compose-file/
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    ports:
+      - "22300:8082"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=loan_admin
+      - POSTGRES_PASSWORD=XeeY3A6VXb2M
+      - POSTGRES_DB=loan
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  pgdata:
