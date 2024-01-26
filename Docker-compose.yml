@@ -3,12 +3,18 @@
 version: "3"
 
 services:
-  loan-app:
-    build:
-      context: .
-      dockerfile: app.Dockerfile
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  app:
+    # build:
+    #   context: .
+    #   dockerfile: app.Dockerfile
+    image: heartlessguy/shiftlab-android-test-app:v1
     ports:
-      - "22300:8082"
+      - "22300:8080"
     depends_on:
       - postgres
 
@@ -16,13 +22,16 @@ services:
     image: postgres:latest
     # build:
     #   context: .
-    #   dockerfile: Dockerfile
+    #   dockerfile: postgres.Dockerfile
     environment:
       - POSTGRES_USER=loan_admin
       - POSTGRES_PASSWORD=XeeY3A6VXb2M
       - POSTGRES_DB=loan
     volumes:
       - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
 #    ports:
 #      - "5432:5432"
 volumes:

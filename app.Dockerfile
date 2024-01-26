@@ -21,7 +21,7 @@ COPY gradle /app/gradle
 # Build the application
 RUN ./gradlew bootJarProd
 
-FROM --platform=amd64 openjdk:8-jdk as runtime
+FROM --platform=amd64 openjdk:8-jre as runtime
 
 # Set the working directory to /app
 WORKDIR /app
